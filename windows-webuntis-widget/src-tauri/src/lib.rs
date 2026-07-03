@@ -1,57 +1,37 @@
+mod config;
+use config::Config;
+use chrono::Duration;
+
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 #[tauri::command]
 fn greet(name: &str) -> String {
-    get_timetable().expect("Failed to get timetable");
-    format!("Hello, {}! You've been greeted from Rust!", name)
+    let timetable: Vec<untis::Lesson> = get_timetable().expect("Failed to get timetable");
+    // format!("Hello, {}! You've been greeted from Rust!", name)
+    // convert timetable to json string and return it
+    serde_json::to_string(&timetable).expect("Failed to convert timetable to JSON")
 }
 
-///
-/// This example shows how you can access a list of your school's teachers and how
-/// you can view the timetables of other people/assets (i.e. rooms). Note that your
-/// school likely has restrictions in place for accessing other timetables.
-///
+fn get_timetable() -> Result<Vec<untis::Lesson>, untis::Error> {
+    // Load enviroment variable from .env files (securely)
+    let config = Config::from_env().expect("Failed to load configuration from .env file");
 
-fn get_timetable() -> Result<(), untis::Error> {
-    // Log in by specifying the school's details and credentials manually.
-    let mut client =
-        untis::Client::login("",
-        "",
-        "",
-        ""
+    let mut client = untis::Client::login(
+        &config.school_server,
+        &config.school_name,
+        &config.server_username,
+        &config.server_password,
     )?;
+    println!("Logged in");
 
-    // Retrieve a list of teachers at the user's school.
-    let teachers = client.teachers()?;
+    // compute a date one week (7 days) ago and request that week
+    let last_week_date = untis::Date::from(untis::Date::today().to_chrono() - Duration::days(7));
+    let timetable = client.own_timetable_for_week(&last_week_date)?;
+    // for lesson in timetable {
+    //     println!("{:?}\n\n", lesson);
+    // }
 
-    for teacher in teachers {
-        // Retrieve the teacher's timetable for the current week.
-        let mut timetable =
-            client.timetable_current_week(&teacher.id, &untis::ElementType::Teacher)?;
+    Ok(timetable)
 
-        timetable.sort_unstable_by_key(|lesson| (lesson.date, lesson.start_time));
-
-        println!(
-            "{} {}'s schedule this week:",
-            teacher.first_name, teacher.last_name
-        );
-
-        for lesson in timetable {
-            println!(
-                "{}, {}-{}",
-                weekday(lesson.date),
-                *lesson.start_time,
-                *lesson.end_time
-            )
-        }
-
-        println!();
-    }
-
-    Ok(())
-}
-
-fn weekday(date: untis::Date) -> String {
-    date.format("%A").to_string()
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]

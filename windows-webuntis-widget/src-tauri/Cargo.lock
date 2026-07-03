@@ -824,6 +824,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "dotenv"
+version = "0.15.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "77c90badedccf4105eca100756a0b1289e191f6fcbdadd3cee1d2f614f97da8f"
+
+[[package]]
 name = "dpi"
 version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4344,13 +4350,12 @@ checksum = "c6f5d3c3b1bf09027a88a6bc961fc00497d651009560b5463668dc81b0fa87a8"
 [[package]]
 name = "untis"
 version = "0.3.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2ff66c5b3c2ea472bcc251e4d3266b6d80edde92e0834080b399e056a59e3b0c"
 dependencies = [
  "chrono",
  "reqwest 0.12.28",
  "serde",
  "serde_json",
+ "serde_repr",
 ]
 
 [[package]]
@@ -4935,6 +4940,8 @@ dependencies = [
 name = "windows-webuntis-widget"
 version = "0.1.0"
 dependencies = [
+ "chrono",
+ "dotenv",
  "serde",
  "serde_json",
  "tauri",

@@ -4,12 +4,15 @@ import { invoke } from "@tauri-apps/api/core";
 import "./App.css";
 
 function App() {
-  const [greetMsg, setGreetMsg] = useState("");
+  const [greetMsg, setGreetMsg] = useState([]);
   const [name, setName] = useState("");
 
   async function greet() {
     // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    setGreetMsg(await invoke("greet", { name }));
+    let greetMsg = await invoke("greet", { name });
+    // Covert greetmsg to a json list object and store it in greetMsg
+    setGreetMsg(JSON.parse(greetMsg));
+    console.log("greetMsg: ", greetMsg);
   }
 
   return (
@@ -37,7 +40,16 @@ function App() {
         />
         <button type="submit">Greet</button>
       </form>
-      <p>{greetMsg}</p>
+      {/* <p>{greetMsg}</p> */}
+      {greetMsg.length > 0 && <p>{greetMsg.map((lesson: any) => (
+        <div key={lesson.id}>
+          <p className="bold">{lesson.date}</p>
+          <p>{lesson.substText}</p>
+          {lesson.code == "Regular" &&
+            <p>{lesson.su[0].name}</p>
+          }
+        </div>
+      ))}</p>}
     </main>
   );
 }
