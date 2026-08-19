@@ -26,10 +26,6 @@ fn get_timetable() -> Result<Vec<untis::Lesson>, untis::Error> {
     // compute a date one week (7 days) ago and request that week
     let last_week_date = untis::Date::from(untis::Date::today().to_chrono() - Duration::days(7));
     let timetable = client.own_timetable_for_week(&last_week_date)?;
-    // for lesson in timetable {
-    //     println!("{:?}\n\n", lesson);
-    // }
-
     Ok(timetable)
 
 }
