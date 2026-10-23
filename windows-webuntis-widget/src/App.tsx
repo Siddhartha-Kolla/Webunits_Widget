@@ -47,6 +47,8 @@ function App() {
       const dayLessons = await invoke<SimpleLesson[]>("get_day_timetable", {
         date: dateText,
       });
+      // untis doesn't give us the lessons in order, "HH:MM" sorts fine as text
+      dayLessons.sort((a, b) => a.start_time.localeCompare(b.start_time));
       setLessons(dayLessons);
     } catch (error) {
       setErrorMessage(String(error));
