@@ -1,0 +1,65 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* This is where we tell Tailwind which colors it is allowed to use as
+   "bg-primary", "text-muted-foreground" and so on. */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+}
+
+/* The actual color values. The widget is always dark, like in the design,
+   so we don't bother with a separate light theme. */
+:root {
+  --background: #101218;
+  --foreground: #eef0f5;
+  --card: #171a22;
+  --card-foreground: #eef0f5;
+  --primary: #8b6bff;
+  --primary-foreground: #ffffff;
+  --secondary: #1c2029;
+  --secondary-foreground: #eef0f5;
+  --muted: #1a1d26;
+  --muted-foreground: #9aa0b4;
+  --accent: #262b38;
+  --accent-foreground: #eef0f5;
+  --destructive: #ef4444;
+  --border: #262b38;
+  --input: #262b38;
+  --ring: #8b6bff;
+
+  --radius: 0.5rem;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+}
