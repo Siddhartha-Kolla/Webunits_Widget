@@ -48,8 +48,12 @@ function App() {
         date: dateText,
       });
       // untis doesn't give us the lessons in order, "HH:MM" sorts fine as text
-      dayLessons.sort((a, b) => a.start_time.localeCompare(b.start_time));
-      setLessons(dayLessons);
+      // the 00:00 - 23:59 entries are all day events, not real lessons, so we skip them
+      const realLessons = dayLessons.filter(
+        (lesson) => !(lesson.start_time === "00:00" && lesson.end_time === "23:59"),
+      );
+      realLessons.sort((a, b) => a.start_time.localeCompare(b.start_time));
+      setLessons(realLessons);
     } catch (error) {
       setErrorMessage(String(error));
     }

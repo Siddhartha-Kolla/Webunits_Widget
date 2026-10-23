@@ -1,6 +1,7 @@
 import { ChevronLeft, ChevronRight, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatDateForHeader } from "@/lib/date";
+import webuntisLogo from "@/assets/webuntis-logo.svg";
 
 interface HeaderProps {
   selectedDate: Date;
@@ -19,9 +20,7 @@ export function Header({
 }: HeaderProps) {
   return (
     <div className="flex items-center justify-between">
-      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-xs font-bold">
-        U
-      </div>
+      <img src={webuntisLogo} alt="WebUntis" className="h-6 w-6" />
 
       <span className="text-xs">{formatDateForHeader(selectedDate)}</span>
 
