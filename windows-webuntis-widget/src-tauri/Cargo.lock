@@ -4350,6 +4350,7 @@ checksum = "c6f5d3c3b1bf09027a88a6bc961fc00497d651009560b5463668dc81b0fa87a8"
 [[package]]
 name = "untis"
 version = "0.3.0"
+source = "git+https://github.com/Siddhartha-Kolla/untis-rs#4cebddf74b92a5536386d90b1937438b4e060104"
 dependencies = [
  "chrono",
  "reqwest 0.12.28",

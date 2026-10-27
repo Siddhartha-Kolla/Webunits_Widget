@@ -22,6 +22,6 @@ tauri = { version = "2", features = [] }
 tauri-plugin-opener = "2"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
-untis = {path = "../../../untis-rs"}
+untis = { git = "https://github.com/Siddhartha-Kolla/untis-rs" }
 dotenv = "0.15.0"
 chrono = { version = "0.4", features = ["clock"] }

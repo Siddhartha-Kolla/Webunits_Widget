@@ -1,0 +1,42 @@
+name: Release
+
+# Builds the Windows installer whenever a version tag like v0.1.0 is pushed.
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: windows-webuntis-widget/package-lock.json
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: windows-webuntis-widget/src-tauri
+
+      - name: Install frontend dependencies
+        run: npm ci
+        working-directory: windows-webuntis-widget
+
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          projectPath: windows-webuntis-widget
+          tagName: ${{ github.ref_name }}
+          releaseName: "WebUntis Widget ${{ github.ref_name }}"
+          releaseBody: "Download the installer below. You need a .env file with your school login, see the README."
+          releaseDraft: true
