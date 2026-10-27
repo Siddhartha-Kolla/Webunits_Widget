@@ -1,5 +1,6 @@
 use dotenv::dotenv;
 use std::env;
+use std::path::PathBuf;
 
 pub struct Config {
     pub school_server: String,
@@ -10,8 +11,14 @@ pub struct Config {
 
 impl Config {
     pub fn from_env() -> Result<Self, String> {
-        dotenv().ok(); // Load .env file
+        if let Ok(appdata) = env::var("APPDATA") {
+            let path = PathBuf::from(appdata)
+                .join("windows-webuntis-widget")
+                .join(".env");
+            dotenv::from_path(path).ok();
+        }
 
+        dotenv().ok(); // Load .env file 
         Ok(Self {
             school_server: env::var("SERVER_SCHOOL_SERVER").map_err(|_| "SERVER_SCHOOL_SERVER is not set")?,
             school_name: env::var("SERVER_SCHOOL_NAME").map_err(|_| "SERVER_SCHOOL_NAME is not set")?,
